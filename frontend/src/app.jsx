@@ -1,7 +1,7 @@
-import Home from "./pages/Home";
+import RiskList from "./pages/RiskList";
 
 function App() {
-  return <Home />;
+  return <RiskList />;
 }
 
 export default App;
