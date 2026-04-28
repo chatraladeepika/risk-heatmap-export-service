@@ -1,45 +1,29 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const API_URL = "http://localhost:8080/api/risks";
+
 function RiskList() {
   const [data, setData] = useState([]);
+  const [page, setPage] = useState(0);
 
-  // Load data
-  const loadData = () => {
-    axios.get("http://localhost:8080/api/risks")
-      .then(res => setData(res.data))
-      .catch(err => console.log(err));
+  // Fetch data
+  const fetchData = async () => {
+    try {
+      const res = await axios.get(`${API_URL}?page=${page}&size=5`);
+      setData(res.data.content || []); // IMPORTANT
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
-    loadData();
-  }, []);
-
-  // DELETE
-  const handleDelete = (id) => {
-    axios.delete(`http://localhost:8080/api/risks/${id}`)
-      .then(() => loadData())
-      .catch(err => console.log(err));
-  };
-
-  // EDIT
-  const handleEdit = (item) => {
-    const newName = prompt("Enter new name", item.name);
-    const newDesc = prompt("Enter new description", item.description);
-
-    if (!newName) return;
-
-    axios.put(`http://localhost:8080/api/risks/${item.id}`, {
-      name: newName,
-      description: newDesc,
-      deleted: false
-    }).then(() => loadData())
-      .catch(err => console.log(err));
-  };
+    fetchData();
+  }, [page]);
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2>Risk List</h2>
+      <h2>Risk List (Pagination)</h2>
 
       <table border="1" cellPadding="10">
         <thead>
@@ -47,26 +31,31 @@ function RiskList() {
             <th>ID</th>
             <th>Name</th>
             <th>Description</th>
-            <th>Actions</th>
           </tr>
         </thead>
 
         <tbody>
-          {data.map(item => (
+          {data.map((item) => (
             <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.name}</td>
               <td>{item.description}</td>
-              <td>
-                <button onClick={() => handleEdit(item)}>Edit</button>
-                {" "}
-                <button onClick={() => handleDelete(item.id)}>Delete</button>
-              </td>
             </tr>
           ))}
         </tbody>
-
       </table>
+
+      <br />
+
+      <button onClick={() => setPage(page - 1)} disabled={page === 0}>
+        Prev
+      </button>
+
+      <button onClick={() => setPage(page + 1)}>
+        Next
+      </button>
+
+      <p>Current Page: {page}</p>
     </div>
   );
 }
