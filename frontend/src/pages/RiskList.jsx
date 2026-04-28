@@ -1,59 +1,71 @@
 import { useEffect, useState } from "react";
-import api from "../services/api";
+import axios from "axios";
 
 function RiskList() {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+
+  // Load data
+  const loadData = () => {
+    axios.get("http://localhost:8080/api/risks")
+      .then(res => setData(res.data))
+      .catch(err => console.log(err));
+  };
 
   useEffect(() => {
-    api.get("/risk")
-      .then((res) => {
-        setData(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
+    loadData();
   }, []);
 
-  // 🔄 Loading state
-  if (loading) {
-    return <div className="text-center mt-10">Loading...</div>;
-  }
+  // DELETE
+  const handleDelete = (id) => {
+    axios.delete(`http://localhost:8080/api/risks/${id}`)
+      .then(() => loadData())
+      .catch(err => console.log(err));
+  };
 
-  // 📭 Empty state
-  if (data.length === 0) {
-    return <div className="text-center mt-10">No data found</div>;
-  }
+  // EDIT
+  const handleEdit = (item) => {
+    const newName = prompt("Enter new name", item.name);
+    const newDesc = prompt("Enter new description", item.description);
 
-  // 📊 Table view
+    if (!newName) return;
+
+    axios.put(`http://localhost:8080/api/risks/${item.id}`, {
+      name: newName,
+      description: newDesc,
+      deleted: false
+    }).then(() => loadData())
+      .catch(err => console.log(err));
+  };
+
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Risk List</h1>
+    <div style={{ padding: "20px" }}>
+      <h2>Risk List</h2>
 
-      <table className="w-full border border-gray-300">
-        <thead className="bg-gray-200">
+      <table border="1" cellPadding="10">
+        <thead>
           <tr>
-            <th className="p-2 border">ID</th>
-            <th className="p-2 border">Title</th>
-            <th className="p-2 border">Risk Level</th>
-            <th className="p-2 border">Status</th>
-            <th className="p-2 border">Score</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
           </tr>
         </thead>
 
         <tbody>
-          {data.map((item) => (
-            <tr key={item.id} className="text-center">
-              <td className="p-2 border">{item.id}</td>
-              <td className="p-2 border">{item.title}</td>
-              <td className="p-2 border">{item.riskLevel}</td>
-              <td className="p-2 border">{item.status}</td>
-              <td className="p-2 border">{item.score}</td>
+          {data.map(item => (
+            <tr key={item.id}>
+              <td>{item.id}</td>
+              <td>{item.name}</td>
+              <td>{item.description}</td>
+              <td>
+                <button onClick={() => handleEdit(item)}>Edit</button>
+                {" "}
+                <button onClick={() => handleDelete(item.id)}>Delete</button>
+              </td>
             </tr>
           ))}
         </tbody>
+
       </table>
     </div>
   );
