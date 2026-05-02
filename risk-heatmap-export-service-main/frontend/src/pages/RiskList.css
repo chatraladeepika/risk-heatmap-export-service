@@ -1,0 +1,110 @@
+/* 🌸 Soft pastel theme */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #fdfbfb, #ebedee);
+}
+
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.8s ease-in;
+}
+
+/* Title */
+.title {
+  text-align: center;
+  color: #6c63ff;
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+/* Inputs */
+input, select {
+  padding: 8px;
+  margin: 5px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+  transition: 0.3s;
+}
+
+input:focus, select:focus {
+  border-color: #6c63ff;
+  box-shadow: 0 0 5px rgba(108, 99, 255, 0.3);
+}
+
+/* Buttons */
+button {
+  padding: 8px 12px;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+  background: #6c63ff;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #5548e5;
+  transform: scale(1.05);
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th {
+  background: #f3f4ff;
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+  text-align: center;
+}
+
+/* Row hover animation */
+tr:hover {
+  background: #f9f9ff;
+  transform: scale(1.01);
+  transition: 0.2s;
+}
+
+/* Links */
+.link {
+  color: #6c63ff;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* Pagination */
+.pagination {
+  margin-top: 15px;
+  text-align: center;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
