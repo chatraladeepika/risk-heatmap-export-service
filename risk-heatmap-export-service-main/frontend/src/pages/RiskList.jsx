@@ -11,6 +11,8 @@ function RiskList() {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
 
+  const [allData, setAllData] = useState([]);
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [severity, setSeverity] = useState("LOW");
@@ -20,11 +22,16 @@ function RiskList() {
 
   const [search, setSearch] = useState("");
 
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState(""); 
+
   // 🔹 Fetch Data
   const fetchData = async () => {
     try {
       const res = await axios.get(`${API_URL}?page=${page}&size=5`);
       setData(res.data);
+      setAllData(res.data);
     } catch (err) {
       console.error(err);
     }
@@ -33,6 +40,16 @@ function RiskList() {
   useEffect(() => {
     fetchData();
   }, [page]);
+
+  useEffect(() => {
+  const timer = setTimeout(() => {
+    setDebouncedSearch(search);
+  }, 500);
+
+  return () => clearTimeout(timer);
+}, [search]);
+
+
 
   // 🔹 Add Risk
   const addRisk = async () => {
@@ -64,22 +81,31 @@ function RiskList() {
   };
 
   // 🔹 Update
-  const updateRisk = async (id) => {
-    await axios.put(`${API_URL}/${id}`, {
-      description: editText,
-    });
+  const updateRisk = async (item) => {
+  await axios.put(`${API_URL}/${item.id}`, {
+    name: item.name,
+    description: editText,
+    severity: item.severity
+  });
 
-    setEditingId(null);
-    fetchData();
-  };
+  setEditingId(null);
+  fetchData();
+};
 
   // 🔹 Search
-  const handleSearch = async () => {
-    if (!search) return fetchData();
+  const handleSearch = () => {
+  if (!search) {
+    setData(allData);
+    return;
+  }
 
-    const res = await axios.get(`${API_URL}/search?q=${search}`);
-    setData(res.data);
-  };
+  const filtered = allData.filter(item =>
+    (item.name || "").toLowerCase().includes(search.toLowerCase()) ||
+    (item.description || "").toLowerCase().includes(search.toLowerCase())
+  );
+
+  setData(filtered);
+};
 
   return (
     <div className="container">
@@ -94,6 +120,15 @@ function RiskList() {
         onChange={(e) => setSearch(e.target.value)}
       />
       <button onClick={handleSearch}>Search</button>
+      <input
+  type="date"
+  onChange={(e) => setStartDate(e.target.value)}
+/>
+
+<input
+  type="date"
+  onChange={(e) => setEndDate(e.target.value)}
+/>
 
       <br /><br />
 
@@ -157,7 +192,7 @@ function RiskList() {
 
               <td>
                 {editingId === item.id ? (
-                  <button onClick={() => updateRisk(item.id)}>Save</button>
+                  <button onClick={() => updateRisk(item)}>Save</button>
                 ) : (
                   <button onClick={() => handleEdit(item)}>Edit</button>
                 )}
