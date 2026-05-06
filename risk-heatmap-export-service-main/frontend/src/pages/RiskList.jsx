@@ -139,6 +139,10 @@ const handleAI = () => {
   }, 1200);
 };
 
+const handleDownload = () => {
+  window.open("http://localhost:8080/api/risks/export");
+};
+
   return (
     <div className="container">
       <h1 className="title">Risk Management App</h1>
@@ -183,9 +187,12 @@ const handleAI = () => {
         <option value="HIGH">HIGH</option>
       </select>
 
+
       <button onClick={addRisk}>Add Risk</button>
+      <button onClick={handleDownload}>Download CSV</button>
       <button onClick={handleAI}>Ask AI</button>
       {loading && <p>ANALYZING RISKS......</p>}
+
 
 {aiResponse && (
   <div>
