@@ -26,6 +26,9 @@ function RiskList() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState(""); 
 
+  const [loading, setLoading] = useState(false);
+  const [aiResponse, setAiResponse] = useState("");
+
   // 🔹 Fetch Data
   const fetchData = async () => {
     try {
@@ -80,6 +83,7 @@ function RiskList() {
     setEditText(item.description);
   };
 
+  
   // 🔹 Update
   const updateRisk = async (item) => {
   await axios.put(`${API_URL}/${item.id}`, {
@@ -105,6 +109,34 @@ function RiskList() {
   );
 
   setData(filtered);
+};
+const handleAI = () => {
+  setLoading(true);
+
+  setTimeout(() => {
+    if (!data || data.length === 0) {
+      setAiResponse("No risks available. Add risks to get AI insights.");
+      setLoading(false);
+      return;
+    }
+
+    const high = data.filter(r => r.severity?.toUpperCase() === "HIGH").length;
+    const medium = data.filter(r => r.severity?.toUpperCase() === "MEDIUM").length;
+    const low = data.filter(r => r.severity?.toUpperCase() === "LOW").length;
+
+    let message = "";
+
+    if (high > 0) {
+      message = `⚠️ ${high} HIGH risk(s) detected. Prioritize resolving them immediately.`;
+    } else if (medium > 0) {
+      message = `⚡ ${medium} MEDIUM risk(s) present. Monitor and plan mitigation.`;
+    } else {
+      message = `✅ All ${low} risks are LOW. System looks stable.`;
+    }
+
+    setAiResponse(message);
+    setLoading(false);
+  }, 1200);
 };
 
   return (
@@ -152,6 +184,15 @@ function RiskList() {
       </select>
 
       <button onClick={addRisk}>Add Risk</button>
+      <button onClick={handleAI}>Ask AI</button>
+      {loading && <p>ANALYZING RISKS......</p>}
+
+{aiResponse && (
+  <div>
+    <h3>AI Response</h3>
+    <p>{aiResponse}</p>
+  </div>
+)}
 
       {/* 📊 Table */}
       <table>
@@ -218,6 +259,7 @@ function RiskList() {
       </div>
     </div>
   );
+  
 }
 
 export default RiskList;
