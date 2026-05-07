@@ -170,6 +170,8 @@ const handleDownload = () => {
 
       <br /><br />
 
+    
+
       {/* ➕ Add Risk */}
       <input
         placeholder="Name"
@@ -184,10 +186,10 @@ const handleDownload = () => {
       />
 
       <select value={severity} onChange={(e) => setSeverity(e.target.value)}>
-        <option value="LOW">LOW</option>
-        <option value="MEDIUM">MEDIUM</option>
-        <option value="HIGH">HIGH</option>
-        <option value="CRITICAL">CRITICAL</option>
+        <option value="LOW">🟢 Low</option>
+<option value="MEDIUM">🟡 Medium</option>
+<option value="HIGH">🟠 High</option>
+<option value="CRITICAL">🔴 Critical</option>
         
         
       </select>
@@ -209,6 +211,9 @@ const handleDownload = () => {
   </div>
 
 )}
+
+
+
 
       {/* 📊 Table */}
       <table>
