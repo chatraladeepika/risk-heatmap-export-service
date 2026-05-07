@@ -1,1 +1,0 @@
-# Risk Heatmap Export Service

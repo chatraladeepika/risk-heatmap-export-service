@@ -30,6 +30,8 @@ function RiskList() {
   const [aiResponse, setAiResponse] = useState("");
 
   // 🔹 Fetch Data
+
+  
   const fetchData = async () => {
     try {
       const res = await axios.get(`${API_URL}?page=${page}&size=5`);
@@ -185,11 +187,17 @@ const handleDownload = () => {
         <option value="LOW">LOW</option>
         <option value="MEDIUM">MEDIUM</option>
         <option value="HIGH">HIGH</option>
+        <option value="CRITICAL">CRITICAL</option>
+        
+        
       </select>
 
 
       <button onClick={addRisk}>Add Risk</button>
       <button onClick={handleDownload}>Download CSV</button>
+      <button onClick={() => window.location.href='/analytics'}>
+  Go To Analytics
+</button>
       <button onClick={handleAI}>Ask AI</button>
       {loading && <p>ANALYZING RISKS......</p>}
 
@@ -199,6 +207,7 @@ const handleDownload = () => {
     <h3>AI Response</h3>
     <p>{aiResponse}</p>
   </div>
+
 )}
 
       {/* 📊 Table */}

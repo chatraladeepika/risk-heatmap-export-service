@@ -1,57 +1,102 @@
 import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 
-const API_URL = "http://localhost:8080/api/risks";
-
-function RiskDetail() {
+function Detail() {
   const { id } = useParams();
   const [risk, setRisk] = useState(null);
 
   useEffect(() => {
-    fetchRisk();
-  }, []);
+    axios
+      .get(`http://localhost:8080/api/risks/${id}`)
+      .then((response) => {
+        setRisk(response.data);
+      });
+  }, [id]);
 
-  const fetchRisk = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/${id}`);
-      setRisk(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  if (!risk) return <p>Loading...</p>;
+  if (!risk) {
+    return <h2>Loading...</h2>;
+  }
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Risk Detail</h2>
-
-      <p><b>ID:</b> {risk.id}</p>
-      <p><b>Name:</b> {risk.name}</p>
-      <p><b>Description:</b> {risk.description}</p>
-
-      {/* ✅ Severity Badge */}
-      <p>
-        <b>Severity:</b>{" "}
-        <span
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#f5f6ff",
+        padding: "40px",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "700px",
+          margin: "auto",
+          background: "white",
+          padding: "40px",
+          borderRadius: "20px",
+          boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+        }}
+      >
+        <h1
           style={{
-            padding: "5px 10px",
-            borderRadius: "5px",
-            backgroundColor:
-              risk.severity === "HIGH"
-                ? "red"
-                : risk.severity === "MEDIUM"
-                ? "orange"
-                : "green",
-            color: "white",
+            textAlign: "center",
+            color: "#5b5be0",
+            marginBottom: "30px",
           }}
         >
-          {risk.severity}
-        </span>
-      </p>
+          Risk Detail
+        </h1>
+
+        <div style={{ lineHeight: "2" }}>
+          <h3>ID: {risk.id}</h3>
+
+          <h3>Name:</h3>
+          <p>{risk.name}</p>
+
+          <h3>Description:</h3>
+          <p>{risk.description}</p>
+
+          <h3>Severity:</h3>
+
+          <span
+            style={{
+              padding: "10px 20px",
+              borderRadius: "10px",
+              color: "white",
+              fontWeight: "bold",
+              background:
+                risk.severity === "CRITICAL"
+                  ? "red"
+                  : risk.severity === "HIGH"
+                  ? "orange"
+                  : risk.severity === "MEDIUM"
+                  ? "gold"
+                  : "green",
+            }}
+          >
+            {risk.severity}
+          </span>
+        </div>
+
+        <br />
+        <br />
+
+        <Link to="/">
+          <button
+            style={{
+              background: "#5b5be0",
+              color: "white",
+              border: "none",
+              padding: "12px 20px",
+              borderRadius: "10px",
+              cursor: "pointer",
+            }}
+          >
+            Back To Dashboard
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }
 
-export default RiskDetail;
+export default Detail;
