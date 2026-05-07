@@ -201,7 +201,7 @@ const handleDownload = () => {
   Go To Analytics
 </button>
       <button onClick={handleAI}>Ask AI</button>
-      {loading && <p>ANALYZING RISKS......</p>}
+      {loading && <div classname="loader"></div>}
 
 
 {aiResponse && (
@@ -250,7 +250,11 @@ const handleDownload = () => {
                 )}
               </td>
 
-              <td>{item.severity}</td>
+              <td>
+  <span className={`badge ${item.severity.toLowerCase()}`}>
+    {item.severity}
+  </span>
+</td>
 
               <td>
                 {editingId === item.id ? (
@@ -280,6 +284,9 @@ const handleDownload = () => {
       </div>
     </div>
   );
+  <footer className="footer">
+  Risk Management System © 2026
+</footer>
   
 }
 

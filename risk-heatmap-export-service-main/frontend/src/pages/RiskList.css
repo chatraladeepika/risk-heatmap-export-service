@@ -13,6 +13,13 @@ body {
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   animation: fadeIn 0.8s ease-in;
+  background: linear-gradient(
+135deg,
+#f5f3ff,
+#eef2ff
+);
+min-height: 100vh;
+padding: 30px;
 }
 
 /* Title */
@@ -162,3 +169,59 @@ select:focus {
 .controls-row input[type="date"] {
   width: 140px;
 }
+
+.badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
+}
+
+.badge.low {
+  background: green;
+}
+
+.badge.medium {
+  background: goldenrod;
+}
+
+.badge.high {
+  background: orange;
+}
+
+.badge.critical {
+  background: red;
+}
+
+button {
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.loader {
+  border: 5px solid #eee;
+  border-top: 5px solid #6366f1;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  color: gray;
+  padding: 20px;
+}
+
