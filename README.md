@@ -108,6 +108,13 @@ docker-compose up --build
 
 ---
 
+## Security Improvements
+
+- Input validation added
+- Invalid requests return 400
+- Security policy documented in SECURITY.md
+- Planned JWT authentication support
+
 ## Author
 
 Developed by Chatrala Deepika
