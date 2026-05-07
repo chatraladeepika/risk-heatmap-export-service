@@ -500,3 +500,22 @@ button:hover {
     transform: translateY(0);
   }
 }
+
+@media (max-width: 768px) {
+
+  .action-bar {
+    flex-direction: column;
+  }
+
+  .detail-card {
+    width: 95%;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  .main-title {
+    font-size: 32px;
+  }
+}
