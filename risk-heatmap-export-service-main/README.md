@@ -96,6 +96,18 @@ npm run dev
 
 ---
 
+## Docker Setup
+
+1. Clone repository
+
+git clone <repo-url>
+
+2. Run Docker
+
+docker-compose up --build
+
+---
+
 ## Author
 
 Developed by Chatrala Deepika
