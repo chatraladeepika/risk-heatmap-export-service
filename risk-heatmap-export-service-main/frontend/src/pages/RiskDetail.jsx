@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 
 function Detail() {
   const { id } = useParams();
   const [risk, setRisk] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -19,84 +21,48 @@ function Detail() {
   }
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#f5f6ff",
-        padding: "40px",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "700px",
-          margin: "auto",
-          background: "white",
-          padding: "40px",
-          borderRadius: "20px",
-          boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
-        }}
-      >
-        <h1
-          style={{
-            textAlign: "center",
-            color: "#5b5be0",
-            marginBottom: "30px",
-          }}
-        >
-          Risk Detail
-        </h1>
+  <div className="detail-container">
 
-        <div style={{ lineHeight: "2" }}>
-          <h3>ID: {risk.id}</h3>
+    <div className="detail-card">
 
-          <h3>Name:</h3>
-          <p>{risk.name}</p>
+      <h1 className="detail-title">
+        🛡️ Risk Detail
+      </h1>
 
-          <h3>Description:</h3>
-          <p>{risk.description}</p>
-
-          <h3>Severity:</h3>
-
-          <span
-            style={{
-              padding: "10px 20px",
-              borderRadius: "10px",
-              color: "white",
-              fontWeight: "bold",
-              background:
-                risk.severity === "CRITICAL"
-                  ? "red"
-                  : risk.severity === "HIGH"
-                  ? "orange"
-                  : risk.severity === "MEDIUM"
-                  ? "gold"
-                  : "green",
-            }}
-          >
-            {risk.severity}
-          </span>
-        </div>
-
-        <br />
-        <br />
-
-        <Link to="/">
-          <button
-            style={{
-              background: "#5b5be0",
-              color: "white",
-              border: "none",
-              padding: "12px 20px",
-              borderRadius: "10px",
-              cursor: "pointer",
-            }}
-          >
-            Back To Dashboard
-          </button>
-        </Link>
+      <div className="detail-row">
+        <span className="label">🆔 ID</span>
+        <span>{risk.id}</span>
       </div>
+
+      <div className="detail-row">
+        <span className="label">📌 Name</span>
+        <span>{risk.name}</span>
+      </div>
+
+      <div className="detail-row">
+        <span className="label">📝 Description</span>
+        <span>{risk.description}</span>
+      </div>
+
+      <div className="detail-row">
+        <span className="label">⚠️ Severity</span>
+
+        <span className={`severity-badge ${risk.severity.toLowerCase()}`}>
+          {risk.severity}
+        </span>
+      </div>
+
+      <button
+        className="back-btn"
+        onClick={() => navigate("/")}
+      >
+        ← Back To Dashboard
+      </button>
+
     </div>
-  );
+
+  </div>
+);
 }
 
 export default Detail;
