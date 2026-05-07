@@ -147,8 +147,17 @@ const handleDownload = () => {
 
   return (
     <div className="container">
-      <h1 className="title">Risk Management App</h1>
+      <div className="hero-section">
+  <div className="glow-circle"></div>
 
+  <h1 className="main-title">
+    🛡️ Risk Management App
+  </h1>
+
+  <p className="sub-title">
+    Identify • Monitor • Analyze • Secure
+  </p>
+</div>
       <h2>Risk List</h2>
 
       {/* 🔍 Search */}
