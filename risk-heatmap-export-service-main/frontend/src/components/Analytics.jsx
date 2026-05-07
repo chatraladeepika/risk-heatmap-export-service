@@ -110,7 +110,7 @@ const Analytics = () => {
 
               <Legend />
 
-             <Bar dataKey="value" fill="#8884d8" barSize={80} />
+              <Bar dataKey="value"name="Risks" fill="#8884d8" />
             </BarChart>
           </ResponsiveContainer>
         </div>

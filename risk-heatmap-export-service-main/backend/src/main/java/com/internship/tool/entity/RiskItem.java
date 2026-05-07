@@ -2,7 +2,13 @@ package com.internship.tool.entity;
 
 import jakarta.persistence.*;
 
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
+
 @Entity
+@Table(indexes = {
+        @Index(name = "idx_severity", columnList = "severity")
+})
 public class RiskItem {
 
     @Id
